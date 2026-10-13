@@ -1,0 +1,32 @@
+[
+  {
+    "code": "B0101",
+    "name": "Cancun",
+    "length": "4 nights / 5 days",
+    "start": "2021-02-14",
+    "resort": "Emerald Bay, 3-stars",
+    "perPerson": "$799.00",
+    "image": "images/reef1.jpg",
+    "description": "Enjoy beautiful beaches in Cancun."
+  },
+  {
+    "code": "B0103",
+    "name": "Barbados",
+    "length": "5 nights / 6 days",
+    "start": "2021-02-28",
+    "resort": "Castaway Cove, 4-stars",
+    "perPerson": "$1299.00",
+    "image": "images/reef2.jpg",
+    "description": "Relax in tropical Barbados."
+  },
+  {
+    "code": "B0401",
+    "name": "Panama City",
+    "length": "4 nights / 5 days",
+    "start": "2021-03-21",
+    "resort": "Sunseeker Surf, 4-stars",
+    "perPerson": "$1199.00",
+    "image": "images/reef3.jpg",
+    "description": "Explore Panama City beaches."
+  }
+]

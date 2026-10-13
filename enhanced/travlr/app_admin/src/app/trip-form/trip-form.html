@@ -1,0 +1,18 @@
+<h2>Add Trip</h2>
+@if (message) { <div class="alert alert-success" role="status">{{ message }}</div> }
+@if (errorMessage) { <div class="alert alert-danger" role="alert">{{ errorMessage }}</div> }
+
+<form (ngSubmit)="addTrip()" class="mb-4">
+
+  <input class="form-control mb-2" name="code" [(ngModel)]="trip.code" placeholder="Code" required>
+  <input class="form-control mb-2" name="name" [(ngModel)]="trip.name" placeholder="Name" required>
+  <input class="form-control mb-2" name="length" [(ngModel)]="trip.length" placeholder="Length" required>
+  <input class="form-control mb-2" name="start" [(ngModel)]="trip.start" type="date" required>
+  <input class="form-control mb-2" name="resort" [(ngModel)]="trip.resort" placeholder="Resort" required>
+  <input class="form-control mb-2" name="perPerson" [(ngModel)]="trip.perPerson" placeholder="Per Person" required>
+  <input class="form-control mb-2" name="image" [(ngModel)]="trip.image" placeholder="Image" required>
+  <textarea class="form-control mb-2" name="description" [(ngModel)]="trip.description" placeholder="Description" required></textarea>
+
+  <button class="btn btn-primary" type="submit">Add Trip</button>
+
+</form>

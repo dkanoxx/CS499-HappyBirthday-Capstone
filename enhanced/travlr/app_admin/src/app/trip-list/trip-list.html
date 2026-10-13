@@ -1,0 +1,8 @@
+<h2>Trips</h2>
+@if (loading) { <div>Loading trips...</div> }
+@if (errorMessage) { <div class="alert alert-danger" role="alert">{{ errorMessage }}</div> }
+@if (!loading && !errorMessage) {
+  @for (trip of trips; track trip.code) {
+    <app-trip-card [trip]="trip" (tripUpdated)="refreshTrips()" (tripDeleted)="refreshTrips()"></app-trip-card>
+  } @empty { <p>No trips are currently available.</p> }
+}
