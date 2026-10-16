@@ -65,10 +65,8 @@ const birthdaysAdd = async (req, res) => {
 
     return res.status(201).json(birthday);
   } catch (err) {
-    return res.status(400).json({
-      message: 'Error adding birthday',
-      error: err.message
-    });
+    if (err.code === 11000) return res.status(409).json({ message: 'This birthday already exists' });
+    return res.status(400).json({ message: 'Unable to add birthday. Check the supplied fields.' });
   }
 };
 
@@ -95,10 +93,8 @@ const birthdaysUpdateOne = async (req, res) => {
 
     return res.status(200).json(birthday);
   } catch (err) {
-    return res.status(400).json({
-      message: 'Error updating birthday',
-      error: err.message
-    });
+    if (err.code === 11000) return res.status(409).json({ message: 'This birthday already exists' });
+    return res.status(400).json({ message: 'Unable to update birthday. Check the supplied fields.' });
   }
 };
 

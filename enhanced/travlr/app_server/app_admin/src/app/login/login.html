@@ -1,0 +1,133 @@
+
+<div class="login-page">
+  <section class="login-visual">
+    <a class="brand" href="/">
+      <span class="brand-star">✦</span>
+      happy<span>birthday</span>.com
+    </a>
+
+    <div class="visual-content">
+      <div class="celebration-art">
+        <span class="balloon balloon-one">🎈</span>
+        <span class="balloon balloon-two">🎈</span>
+        <span class="cake">🎂</span>
+        <span class="sparkle">✦</span>
+      </div>
+
+      <span class="eyebrow">MAKE EVERY MOMENT COUNT</span>
+      <h1>Every birthday deserves to be remembered.</h1>
+      <p>
+        Keep your favorite people close and never miss
+        another special celebration.
+      </p>
+    </div>
+
+    <div class="visual-footer">
+      Made for meaningful moments ✦
+    </div>
+  </section>
+
+  <section class="login-panel">
+    <div class="login-card">
+      <div class="mobile-logo">✦ happybirthday.com</div>
+
+      <div class="welcome-icon">
+        {{ isRegistering ? '🎂' : '🎉' }}
+      </div>
+
+      <h2>
+        {{ isRegistering ? 'Create your account' : 'Welcome back!' }}
+      </h2>
+
+      <p class="subtitle">
+        {{ isRegistering
+          ? 'Start remembering every special birthday.'
+          : 'Sign in to your personal celebration space.' }}
+      </p>
+
+      <form (ngSubmit)="submit()">
+
+        @if (isRegistering) {
+          <label for="register-name">Full name</label>
+          <input
+            id="register-name"
+            type="text"
+            name="name"
+            [(ngModel)]="name"
+            placeholder="Your full name"
+            autocomplete="name"
+            required
+            minlength="2"
+            maxlength="100"
+          />
+        }
+
+        <label for="login-email">Email address</label>
+        <input
+          id="login-email"
+          type="email"
+          name="email"
+          [(ngModel)]="email"
+          placeholder="you@example.com"
+          autocomplete="email"
+          required
+        />
+
+        <label for="login-password">Password</label>
+        <input
+          id="login-password"
+          type="password"
+          name="password"
+          [(ngModel)]="password"
+          placeholder="Enter your password"
+          [attr.autocomplete]="isRegistering ? 'new-password' : 'current-password'"
+          [attr.minlength]="isRegistering ? 12 : null"
+          required
+        />
+
+        @if (error) {
+          <p class="login-error" role="alert">
+            {{ error }}
+          </p>
+        }
+
+        @if (success) {
+          <p class="login-success" role="status">
+            {{ success }}
+          </p>
+        }
+
+        <button
+          class="sign-in-btn"
+          type="submit"
+          [disabled]="loading"
+        >
+          {{ loading
+            ? 'Please wait...'
+            : isRegistering
+              ? 'Create Account →'
+              : 'Sign In →' }}
+        </button>
+      </form>
+
+      <div class="divider">
+        <span>
+          {{ isRegistering ? 'ALREADY HAVE AN ACCOUNT?' : 'NEW TO HAPPYBIRTHDAY?' }}
+        </span>
+      </div>
+
+      <button
+        class="create-account"
+        type="button"
+        [disabled]="loading"
+        (click)="switchMode()"
+      >
+        {{ isRegistering ? 'Back to Sign In' : 'Create an account' }}
+      </button>
+
+      <p class="login-footer">
+        Your celebrations, beautifully organized.
+      </p>
+    </div>
+  </section>
+</div>

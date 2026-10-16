@@ -1,0 +1,601 @@
+
+@if (checkingAuth) {
+
+  <!-- CHECK LOGIN SESSION -->
+  <div class="auth-loading" role="status">
+    Checking your session...
+  </div>
+
+} @else if (!currentUser) {
+
+  <!-- LOGIN SCREEN -->
+  <app-login (signedIn)="onSignedIn($event)" />
+
+} @else {
+
+  <!-- AUTHENTICATED DASHBOARD -->
+  <div class="shell">
+
+    <aside class="sidebar" aria-label="Main navigation">
+
+      <a
+        class="logo"
+        href="#home"
+        (click)="navigate('overview')"
+        aria-label="HappyBirthday home"
+      >
+        <span class="logo-icon">✦</span>
+        <span>
+          happy<span class="logo-em">birthday</span>
+          <small>.com</small>
+        </span>
+      </a>
+
+      <div class="nav-caption">WORKSPACE</div>
+
+      <button
+        type="button"
+        class="nav-item"
+        [class.selected]="currentPage === 'overview'"
+        (click)="navigate('overview')"
+      >
+        <span>▦</span> Overview
+      </button>
+
+      <button
+        type="button"
+        class="nav-item"
+        [class.selected]="currentPage === 'birthdays'"
+        (click)="navigate('birthdays')"
+      >
+        <span>▤</span> All birthdays
+      </button>
+
+      <div class="sidebar-bottom">
+        <div class="side-illustration">🎈</div>
+        <strong>Make their day.</strong>
+        <p>Little reminders for life's biggest smiles.</p>
+
+        <button type="button" (click)="openAdd()">
+          + Add birthday
+        </button>
+      </div>
+
+    </aside>
+
+    <main id="home" class="main">
+
+      <!-- TOP NAVIGATION -->
+      <header class="topbar">
+
+        <div class="mobile-brand">
+          <span>✦</span> happybirthday.com
+        </div>
+
+        <span class="breadcrumb">
+          Workspace
+          <span>/</span>
+          {{ currentPage === 'overview' ? 'Overview' : 'All birthdays' }}
+        </span>
+
+        <div class="top-right">
+
+          <span class="live-dot"></span>
+
+          <span>{{ currentUser.name }}</span>
+
+          <span class="avatar-small">
+            {{ initials(currentUser.name) }}
+          </span>
+
+          <button
+            type="button"
+            class="logout-btn"
+            (click)="logout()"
+          >
+            Sign Out
+          </button>
+
+        </div>
+
+      </header>
+
+      <div class="page">
+
+        @if (currentPage === 'overview') {
+
+          <!-- WELCOME -->
+          <div class="welcome-row">
+
+            <div>
+              <div class="eyebrow">
+                YOUR PERSONAL CELEBRATION HUB
+              </div>
+
+              <h1>
+                Every date tells a story
+                <span class="period">.</span>
+              </h1>
+
+              <p>
+                All the people and moments worth celebrating,
+                in one beautiful place.
+              </p>
+            </div>
+
+            <button
+              class="primary-btn desktop-add"
+              type="button"
+              (click)="openAdd()"
+            >
+              <span>＋</span> Add birthday
+            </button>
+
+          </div>
+
+          <!-- HERO -->
+          <section class="hero" aria-label="Welcome">
+
+            <div class="hero-content">
+
+              <span class="hero-pill">
+                ✧ A LITTLE JOY, EVERY DAY
+              </span>
+
+              <h2>
+                Make every birthday<br>
+                <em>unforgettable.</em>
+              </h2>
+
+              <p>
+                Remember the dates. Celebrate the people.
+                Let the good moments happen.
+              </p>
+
+              <button type="button" (click)="openAdd()">
+                Add someone special <span>↗</span>
+              </button>
+
+            </div>
+
+            <div class="hero-decoration" aria-hidden="true">
+              <span class="star star-one">✳</span>
+              <span class="star star-two">✦</span>
+              <span class="big-cake">🎂</span>
+              <span class="star star-three">✳</span>
+            </div>
+
+          </section>
+
+          <!-- STATISTICS -->
+          <section class="stats" aria-label="Birthday statistics">
+
+            <div class="stat">
+              <div class="stat-icon purple">♙</div>
+              <span>Saved birthdays</span>
+              <strong>{{ birthdays.length }}</strong>
+              <small>People who matter</small>
+            </div>
+
+            <div class="stat">
+              <div class="stat-icon peach">▦</div>
+              <span>This month</span>
+              <strong>{{ thisMonth }}</strong>
+              <small>Reasons to celebrate</small>
+            </div>
+
+            <div class="stat">
+              <div class="stat-icon mint">◷</div>
+              <span>Next celebration</span>
+
+              <strong>
+                {{ nextBirthday ? daysLeft(nextBirthday) : '—' }}
+
+                <small class="days-unit">
+                  {{ nextBirthday ? 'days away' : '' }}
+                </small>
+              </strong>
+
+              <small>
+                {{ nextBirthday ? nextBirthday.name : 'Add your first birthday' }}
+              </small>
+            </div>
+
+          </section>
+
+        }
+
+        <!-- BIRTHDAY LIST -->
+        <section
+          id="birthdays"
+          class="list-panel"
+          aria-labelledby="list-title"
+        >
+
+          <div class="list-head">
+
+            <div>
+              <div class="eyebrow">YOUR PEOPLE</div>
+
+              <h2 id="list-title">
+                {{ currentPage === 'overview'
+                    ? 'Upcoming birthdays'
+                    : 'All birthdays' }}
+
+                <span class="count">
+                  {{ birthdays.length }}
+                </span>
+              </h2>
+
+              <p>
+                Stay close to the people who make life special.
+              </p>
+            </div>
+
+            <button
+              type="button"
+              class="secondary-btn"
+              (click)="load()"
+              [disabled]="loading"
+            >
+              ↻ Refresh
+            </button>
+
+          </div>
+
+          <!-- SEARCH -->
+          <div class="list-tools">
+
+            <label class="search-box">
+              <span>⌕</span>
+
+              <input
+                type="search"
+                aria-label="Search birthdays"
+                placeholder="Search by name, relationship, or notes..."
+                [(ngModel)]="search"
+              />
+            </label>
+
+            <button
+              class="mobile-add primary-btn"
+              type="button"
+              (click)="openAdd()"
+            >
+              + Add
+            </button>
+
+          </div>
+
+          @if (notice) {
+            <div class="notice" role="status">
+              ✓ {{ notice }}
+
+              <button
+                type="button"
+                aria-label="Dismiss notice"
+                (click)="notice = ''"
+              >
+                ×
+              </button>
+            </div>
+          }
+
+          @if (loading) {
+
+            <div class="state" role="status">
+              <span class="state-icon">◌</span>
+              <h3>Loading your celebrations...</h3>
+            </div>
+
+          } @else if (error) {
+
+            <div class="state error" role="alert">
+              <span class="state-icon">!</span>
+              <h3>Connection issue</h3>
+              <p>{{ error }}</p>
+
+              <button
+                type="button"
+                class="secondary-btn"
+                (click)="load()"
+              >
+                Try again
+              </button>
+            </div>
+
+          } @else if (filtered.length === 0) {
+
+            <div class="state">
+
+              <span class="state-icon">🎁</span>
+
+              <h3>
+                {{ search
+                    ? 'No matching birthdays'
+                    : 'Your celebrations start here' }}
+              </h3>
+
+              <p>
+                {{ search
+                    ? 'Try a different search term.'
+                    : 'Add someone special and we’ll help you remember their day.' }}
+              </p>
+
+              @if (!search) {
+                <button
+                  type="button"
+                  class="primary-btn"
+                  (click)="openAdd()"
+                >
+                  + Add your first birthday
+                </button>
+              }
+
+            </div>
+
+          } @else {
+
+            <!-- TABLE HEADERS -->
+            <div class="list-labels">
+              <span>PERSON</span>
+              <span>BIRTHDAY</span>
+              <span>COUNTDOWN</span>
+              <span>ACTIONS</span>
+            </div>
+
+            <!-- BIRTHDAY RECORDS -->
+            <div class="records">
+
+              @for (birthday of filtered; track birthday._id; let i = $index) {
+
+                <article class="record">
+
+                  <div class="person-cell">
+
+                    <div
+                      class="person-avatar"
+                      [class.alt]="i % 3 === 1"
+                      [class.third]="i % 3 === 2"
+                    >
+                      {{ initials(birthday.name) }}
+                    </div>
+
+                    <div class="person-text">
+                      <strong>{{ birthday.name }}</strong>
+
+                      <small>
+                        {{ birthday.relationship || 'Someone special' }}
+                      </small>
+                    </div>
+
+                  </div>
+
+                  <div class="date-cell">
+                    <span class="date-icon">▦</span>
+                    {{ dateLabel(birthday) }}
+                  </div>
+
+                  <div class="countdown">
+                    <span [class.today]="daysLeft(birthday) === 0">
+                      {{ daysLabel(birthday) }}
+                    </span>
+                  </div>
+
+                  <div class="actions">
+
+                    <button
+                      type="button"
+                      (click)="openEdit(birthday)"
+                      [attr.aria-label]="'Edit ' + birthday.name"
+                    >
+                      Edit
+                    </button>
+
+                    <button
+                      type="button"
+                      class="delete"
+                      (click)="remove(birthday)"
+                      [disabled]="deletingId === birthday._id"
+                      [attr.aria-label]="'Delete ' + birthday.name"
+                    >
+                      Delete
+                    </button>
+
+                  </div>
+
+                </article>
+
+              }
+
+            </div>
+
+          }
+
+        </section>
+
+        <footer>
+          Made for meaningful moments
+          <span>✦</span>
+          HappyBirthday.com · CS 499 Capstone
+        </footer>
+
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- ADD / EDIT BIRTHDAY MODAL -->
+  @if (formOpen) {
+
+    <div
+      class="hb-dialog-backdrop"
+      (click)="closeForm()"
+    >
+
+      <section
+        class="hb-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="form-title"
+        (click)="$event.stopPropagation()"
+      >
+
+        <div class="modal-head">
+
+          <div>
+            <div class="eyebrow">
+              KEEP THE CELEBRATION GOING
+            </div>
+
+            <h2 id="form-title">
+              {{ editingId ? 'Edit birthday' : 'Add a birthday' }}
+            </h2>
+
+            <p>Save the little details that matter.</p>
+          </div>
+
+          <button
+            class="close-btn"
+            type="button"
+            (click)="closeForm()"
+            aria-label="Close form"
+          >
+            ×
+          </button>
+
+        </div>
+
+        <form
+          (ngSubmit)="save()"
+          #birthdayForm="ngForm"
+        >
+
+          <label class="field">
+            Name
+
+            <input
+              name="name"
+              [(ngModel)]="form.name"
+              required
+              maxlength="100"
+              placeholder="e.g. Maria Garcia"
+              autocomplete="off"
+            />
+          </label>
+
+          <div class="field-row">
+
+            <label class="field">
+              Month
+
+              <select
+                name="month"
+                [(ngModel)]="form.month"
+                required
+              >
+                @for (month of months; track month; let i = $index) {
+                  <option [ngValue]="i + 1">
+                    {{ month }}
+                  </option>
+                }
+              </select>
+
+            </label>
+
+            <label class="field">
+              Day
+
+              <input
+                name="day"
+                type="number"
+                min="1"
+                max="31"
+                [(ngModel)]="form.day"
+                required
+              />
+            </label>
+
+          </div>
+
+          <label class="field">
+            Relationship
+
+            <input
+              name="relationship"
+              [(ngModel)]="form.relationship"
+              maxlength="50"
+              placeholder="Friend, family, coworker..."
+            />
+          </label>
+
+          <label class="field">
+            Notes
+
+            <textarea
+              name="notes"
+              [(ngModel)]="form.notes"
+              maxlength="500"
+              rows="3"
+              placeholder="A favorite memory, gift idea, or anything to remember..."
+            ></textarea>
+          </label>
+
+          <label class="toggle">
+
+            <input
+              type="checkbox"
+              name="reminderEnabled"
+              [(ngModel)]="form.reminderEnabled"
+            />
+
+            <span>
+              Mark for future reminders
+
+              <small>
+                Automatic notifications are not enabled yet.
+              </small>
+            </span>
+
+          </label>
+
+          @if (formError) {
+            <p class="form-error" role="alert">
+              {{ formError }}
+            </p>
+          }
+
+          <div class="form-actions">
+
+            <button
+              class="secondary-btn"
+              type="button"
+              (click)="closeForm()"
+            >
+              Cancel
+            </button>
+
+            <button
+              class="primary-btn"
+              type="submit"
+              [disabled]="saving || birthdayForm.invalid"
+            >
+              {{ saving
+                  ? 'Saving...'
+                  : editingId
+                    ? 'Save changes'
+                    : 'Save birthday' }}
+            </button>
+
+          </div>
+
+        </form>
+
+      </section>
+
+    </div>
+
+  }
+
+}

@@ -2,7 +2,9 @@ const mongoose = require('mongoose');
 
 const dbURI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/travlr';
 
-mongoose.connect(dbURI);
+mongoose.connect(dbURI, { serverSelectionTimeoutMS: 5000 }).catch(err => {
+    console.error('MongoDB connection failed:', err.message);
+});
 
 mongoose.connection.on('connected', () => {
     console.log(`Mongoose connected to ${dbURI}`);
