@@ -37,3 +37,10 @@ The final portfolio should verify the precise algorithms and data structures in 
 ## Test Evidence
 
 [Birthday algorithm test screenshot](enhanced/travlr/tests/Screenshot%202026-10-15%20234419.png) (terminal screenshot uploaded October 15, 2026).
+
+## Verified implementation and complexity
+The [birthday algorithms source](enhanced/travlr/app_api/algorithms/birthday-algorithms.js) implements UTC-normalized date calculations, case-insensitive linear search, stable merge sort, and a JavaScript `Map` lookup index. `getNextBirthday` uses a constant number of date calculations (**O(1)**); `searchBirthdays` scans **O(n)** records; `sortUpcomingBirthdays` uses merge sort with **O(n log n)** time and **O(n)** auxiliary space; `buildBirthdayIndex` takes **O(n)** preprocessing and offers **O(1)** average lookup by key.
+
+The [test script](enhanced/travlr/tests/birthday-algorithms.test.js) explicitly asserts leap-year classification, the February 29-to-February 28 policy in non-leap years, a December 31/January 1 boundary, a birthday occurring today, UTC-offset handling, search, sorting, and duplicate-key detection. The tests are focused unit assertions; they do not establish exhaustive edge-case or API integration coverage.
+
+The `Map` index detects duplicate keys without overwriting the first matching record. This is separate from the database's unique index, which enforces a storage-level constraint when active.

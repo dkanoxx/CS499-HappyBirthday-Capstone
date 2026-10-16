@@ -35,3 +35,15 @@ This enhancement helped me understand how database choices affect the reliabilit
 - Evidence of successful create, read, update, and delete operations
 - Screenshots or logs showing the database-backed application
 - Explanation of any indexes and uniqueness constraints actually present in the code
+
+
+## Database Evidence
+
+[MongoDB Compass birthday collection screenshot](evidence/screenshots/Screenshot%202026-10-15%20235517.png) — shows the local `travlr.birthdays` collection with three saved documents. This confirms stored birthday records; it does not independently verify access controls or production security.
+
+## Verified schema and API references
+The [Birthday Mongoose model](enhanced/travlr/app_server/models/birthday.js) defines required name/month/day fields, calendar-day validation, optional relationship and notes fields, a reminder flag, and automatic timestamps. It declares a `{ month: 1, day: 1 }` index and a unique compound `{ name: 1, month: 1, day: 1 }` index. The unique constraint uses the stored name value; the source does **not** establish case-insensitive normalization for that database index.
+
+The [birthday controller](enhanced/travlr/app_api/controllers/birthdays.js) implements create, list, lookup, update, and delete operations. The [API routes](enhanced/travlr/app_api/routes/index.js) apply [birthday validation middleware](enhanced/travlr/app_api/middleware/validate-birthday.js) to create and update requests. The [MongoDB Compass screenshot](evidence/screenshots/Screenshot%202026-10-15%20235517.png) shows three documents in the local `travlr.birthdays` collection, supporting the persistence claim.
+
+**Remaining limitation:** The API does not scope birthday reads or mutations to the authenticated user's ownership. The schema also does not include a birthday owner field. The application must not be described as ready for secure public multi-user use.
