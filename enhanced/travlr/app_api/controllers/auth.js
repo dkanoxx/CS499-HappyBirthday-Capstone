@@ -220,7 +220,7 @@ exports.logout = (req, res) => {
     }
 
     // Remove the session cookie from the browser
-    res.clearCookie('connect.sid', {
+    res.clearCookie('happybirthday.sid', {
       path: '/'
     });
 

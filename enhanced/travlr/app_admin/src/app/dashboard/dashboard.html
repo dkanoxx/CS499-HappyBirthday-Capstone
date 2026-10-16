@@ -1,0 +1,85 @@
+
+<div class="dashboard">
+  <section class="welcome">
+    <div>
+      <p class="eyebrow">YOUR BIRTHDAY DASHBOARD</p>
+      <h1>Make every birthday unforgettable 🎉</h1>
+      <p>Keep track of special dates and celebrate the people you love.</p>
+    </div>
+    <button class="primary-btn" (click)="openAdd()">
+      + Add a birthday
+    </button>
+  </section>
+
+  <section class="stats">
+    <div class="stat-card">
+      <span>Total birthdays</span>
+      <strong>{{ birthdays.length }}</strong>
+    </div>
+    <div class="stat-card">
+      <span>People to celebrate</span>
+      <strong>{{ birthdays.length }}</strong>
+    </div>
+  </section>
+
+  <section class="collection">
+    <div class="section-heading">
+      <h2>Birthday Collection</h2>
+      <button class="primary-btn" (click)="openAdd()">+ Add Birthday</button>
+    </div>
+
+    <p *ngIf="birthdays.length === 0" class="empty">
+      No birthdays yet. Add your first birthday!
+    </p>
+
+    <div class="birthday-grid">
+      <article class="birthday-card" *ngFor="let birthday of birthdays">
+        <div class="avatar">🎂</div>
+        <h3>{{ birthday.name }}</h3>
+        <p>{{ birthday.date }}</p>
+        <p>{{ birthday.relationship }}</p>
+
+        <div class="actions">
+          <button (click)="openEdit(birthday)">Edit</button>
+          <button class="danger" (click)="deleteBirthday(birthday.id)">
+            Delete
+          </button>
+        </div>
+      </article>
+    </div>
+  </section>
+</div>
+
+<div class="modal-overlay" *ngIf="showModal" (click)="closeModal()">
+  <div class="modal" role="dialog" aria-modal="true"
+       aria-label="Birthday form" (click)="$event.stopPropagation()">
+
+    <div class="modal-header">
+      <h2>{{ editingId !== null ? 'Edit Birthday' : 'Add a Birthday' }}</h2>
+      <button class="close-btn" (click)="closeModal()">×</button>
+    </div>
+
+    <form (ngSubmit)="saveBirthday()">
+      <label for="birthday-name">Name</label>
+      <input id="birthday-name" name="name" type="text"
+             [(ngModel)]="form.name" required />
+
+      <label for="birthday-date">Birthday</label>
+      <input id="birthday-date" name="date" type="date"
+             [(ngModel)]="form.date" required />
+
+      <label for="birthday-relationship">Relationship</label>
+      <input id="birthday-relationship" name="relationship" type="text"
+             [(ngModel)]="form.relationship" />
+
+      <div class="modal-actions">
+        <button type="button" class="cancel-btn" (click)="closeModal()">
+          Cancel
+        </button>
+        <button type="submit" class="primary-btn">
+          {{ editingId !== null ? 'Save Changes' : 'Add Birthday' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
