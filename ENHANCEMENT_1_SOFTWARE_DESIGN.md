@@ -32,3 +32,12 @@ This enhancement demonstrates how I can revisit an earlier software project, pre
 - Screenshot of the birthday dashboard
 - Screenshot or output demonstrating the authentication flow
 - Source references for birthday routes, validation middleware, and Angular components
+
+## Verified source references
+- [Birthday API routes](enhanced/travlr/app_api/routes/index.js) expose list, create, lookup, update, and delete endpoints.
+- [Birthday controller](enhanced/travlr/app_api/controllers/birthdays.js) uses Mongoose for CRUD and delegates search and sorting to the algorithms module.
+- [Birthday validation middleware](enhanced/travlr/app_api/middleware/validate-birthday.js) checks names and calendar dates before create/update operations.
+- [Birthday Mongoose model](enhanced/travlr/app_server/models/birthday.js) defines field validation and indexes.
+- [Application screenshots](evidence/screenshots/) provide visual evidence of the interface.
+
+**Security boundary:** The birthday controller currently queries all records and performs update/delete operations by ID without verifying ownership. Account sign-in alone does not establish record-level authorization. This remains a documented limitation, not a completed security enhancement.
