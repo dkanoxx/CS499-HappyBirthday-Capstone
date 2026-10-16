@@ -32,3 +32,8 @@ This enhancement strengthened my ability to move beyond a feature that simply ap
 
 ## Limitations and next steps
 The final portfolio should verify the precise algorithms and data structures in the submitted source code, document their complexity where appropriate, and avoid claiming coverage for edge cases that have not been explicitly tested.
+
+
+## Test Evidence
+
+[Birthday algorithm test screenshot](enhanced/travlr/tests/Screenshot%202026-10-15%20234419.png) (terminal screenshot uploaded October 15, 2026).
