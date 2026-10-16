@@ -35,3 +35,8 @@ This enhancement helped me understand how database choices affect the reliabilit
 - Evidence of successful create, read, update, and delete operations
 - Screenshots or logs showing the database-backed application
 - Explanation of any indexes and uniqueness constraints actually present in the code
+
+
+## Database Evidence
+
+[MongoDB Compass birthday collection screenshot](evidence/screenshots/Screenshot%202026-10-15%20235517.png) — shows the local `travlr.birthdays` collection with three saved documents. This confirms stored birthday records; it does not independently verify access controls or production security.
