@@ -6,14 +6,14 @@ This repository documents the enhancement of **Travlr Getaways**, an earlier CS 
 
 ## Project structure
 
-After the source files are uploaded, the repository will contain:
+The repository contains:
 
 - `original/travlr/` — baseline Travlr application, retained for comparison.
 - `enhanced/travlr/` — enhanced application and associated tests.
 - `enhanced/travlr/tests/` — birthday and trip algorithm test scripts.
 - Enhancement notes and narratives — explanations of design decisions, trade-offs, testing, and reflection.
 
-**Source upload status:** The project files are being prepared for upload. This README does not mean that the folders above are already present.
+**Source status:** The original and enhanced project folders are present. Supporting screenshots and enhancement narratives are linked below.
 
 ## Three enhancement areas
 
@@ -23,11 +23,19 @@ After the source files are uploaded, the repository will contain:
 
 ## Verification and limitations
 
-Local birthday and trip algorithm tests passed during preparation of the cleaned source package. The API's database integration still requires final verification. Authentication, per-user ownership checks, and privacy protections require additional work; this is an academic portfolio project, **not a production-ready service**.
+Local birthday and trip algorithm tests passed during preparation of the cleaned source package. Local MongoDB persistence has been observed in MongoDB Compass. Registration, login, session checking, and logout are implemented; however, **per-user ownership authorization for birthday records is not implemented**. Additional privacy and security testing is needed. This is an academic portfolio project, **not a production-ready service**.
 
 ## Local development
 
-Consult the `package.json` files in the enhanced project for available scripts. After the source folders are uploaded, install dependencies in the relevant Node.js project directories using `npm install`. Do not commit `node_modules`, credentials, or private birthday records.
+Consult the `package.json` files in the enhanced project for available scripts. Install dependencies in the relevant Node.js project directories using `npm install`. Do not commit `node_modules`, credentials, or private birthday records.
+
+## Enhancement narratives and evidence
+
+- [Enhancement One — Software Design and Engineering](ENHANCEMENT_1_SOFTWARE_DESIGN.md)
+- [Enhancement Two — Algorithms and Data Structures](ENHANCEMENT_2_ALGORITHMS_DATA_STRUCTURES.md)
+- [Enhancement Three — Databases](ENHANCEMENT_3_DATABASES.md)
+- [Application and MongoDB screenshots](evidence/screenshots/)
+- [Birthday algorithm tests and test screenshot](enhanced/travlr/tests/)
 
 ## Portfolio
 
