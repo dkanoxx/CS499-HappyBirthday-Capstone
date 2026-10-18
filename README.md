@@ -37,6 +37,12 @@ Consult the `package.json` files in the enhanced project for available scripts. 
 - [Application and MongoDB screenshots](evidence/screenshots/)
 - [Birthday algorithm tests and test screenshot](enhanced/travlr/tests/)
 
+## CS 499 Capstone Video Presentation
+
+Watch the recorded presentation covering HappyBirthday.com, its three enhancement areas, and project testing.
+
+[Watch the HappyBirthday.com capstone video on YouTube](https://youtu.be/pohzEwN6xlA)
+
 ## Portfolio
 
 [CS 499 ePortfolio](https://dkanoxx.github.io/html-profile/)
